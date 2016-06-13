@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>Document</title>
+
+</head>
+<style>
+*{
+	padding: 0;
+	margin: 0;
+}
+	.box{
+		width:1366px;
+		height:650px;
+		/*border: 1px solid black;*/
+		position: relative;
+		overflow: hidden;
+    margin: 0 auto;
+	}
+	.zi{
+		display: inline-block;
+		width:60px;
+		height:60px;
+		line-height: 60px;
+		text-align: center;
+		font-weight: bold;
+		color: black;
+		position: absolute;
+    border-radius: 50%;
+    font-size: 40px;
+		background: url(4.png);
+
+	}
+	.ren{
+		width:100px;
+		height:100px;
+		/*background: black;*/
+		background: url(018.png);
+		position: absolute;
+		bottom:0;
+		left:0;
+
+		z-index: 1;
+	}
+</style>
+<body>
+	<div class="box">
+		<img  src="40.jpg">
+		<!-- <div class="zi">a</div>    -->
+		<div class="ren">
+
+		</div>
+	</div>
+</body>
+<script>
+   // var box=document.querySelector(".box")
+   // document.onkeyup=function(e){
+   //   var key=String.fromCharCode(e.keyCode).toLowerCase()
+   //   if(key=="a"){
+   //   	box.removeChild(box.firstElementChild)
+   //   	var el=document.createElement("div")
+   //   	el.className=("zi")
+   //   	el.innerHTML=String.fromCharCode(Math.floor(Math.random()*25+97))
+   //   	box.appendChild(el)
+   //   }
+
+   // }
+
+
+
+   var box=document.querySelector(".box")
+
+   var zimujihe={}
+   // 定义一个数组储存找到的键 值
+     creatzimu = function(){
+     	// 创建一个字母
+     	do{
+     		var zimu=String.fromCharCode(Math.floor(Math.random()*26+97))
+     	}while(zimujihe[zimu])
+     	// var zimu=String.fromCharCode(Math.floor(Math.random()*26+97))
+     	// 随机找字母取整
+     	var el=document.createElement("div")
+     	// 创建一个新的div
+     	el.classList.add("zi")
+     	// 添加一个类名
+     	el.innerHTML=zimu
+     	// 给div添加内容 字母
+     	box.appendChild(el)
+     	// 然后把div放进大盒子里
+     	el.style.left=Math.floor(Math.random()*(box.offsetWidth-el.offsetWidth))+"px"
+     	// 让它随机左右动
+     	var ma=Math.ceil(Math.random()*4)
+     	zimujihe[zimu]={yuan:el,top:0,ran:ma}
+        // zimujihe[zimu]=el
+        // 储存 数据结构 键    值
+     }
+
+     removezimu=function(zimu){
+     	// 删除字母函数
+         var el=zimujihe[zimu].yuan
+         // 字母的键附给el
+         el.parentElement.removeChild(el)
+         // 找到父元素删除子元素
+         delete zimujihe[zimu]
+         // 后台删除
+      }
+
+     creatzimu()
+     creatzimu()
+     creatzimu()
+     // 调用函数
+
+
+      document.onkeyup=function(e){
+      	// 键盘事件
+      	var key=String.fromCharCode(e.keyCode).toLowerCase()
+      	// 键盘字母的转化
+      	if(zimujihe[key]){
+      		// 如果字母集合里是这个字母
+      		removezimu(key)
+      		// 字母删除
+      		creatzimu()
+      		// 创建一个新字母
+      	}
+      }
+
+
+
+      var x=box.offsetHeight
+      var t=setInterval(diao,20)
+      // 时间函数
+     function diao(){
+     	var arr=[]
+      	for(var i in zimujihe){
+      		// 寻找字母集合里的每个字母
+      		var el=zimujihe[i]
+      		el.top+=el.ran
+      		el.yuan.style.top=el.top+"px"
+      		if(el.top>x){
+      			arr.push(i)
+      		}
+      	}
+      	if(arr.length>0){
+      		for(var j=0;j<arr.length;j++){
+      			removezimu(arr[j])
+      			creatzimu()
+      		}
+      	}
+      }
+      // diao()
+      function zanting(e){
+      	if(t){
+      		clearInterval(t)
+      		t=null
+      	}else{
+      		t=setInterval(diao,20)
+      	}
+      }
+	// document.onkeydown=function(){
+	// 	console.log("keydown")
+	// }
+	// document.onkeyup=function(){
+	// 	console.log("keyup")
+	// }
+	// document.onkeypress=function(){
+	// 	console.log("press")
+	// }
+
+	// for(var i=0;i<2000;i++){
+	// 	console.log(i,String.fromCharCode(i))
+	// }
+	// var obj={}
+ //   for(var i=10000;i<10100;i++      ){
+	// 	obj[i]=String.fromCharCode(i)
+	// }
+ //   console.log(JSON.stringify(obj))
+</script>
+</html>
